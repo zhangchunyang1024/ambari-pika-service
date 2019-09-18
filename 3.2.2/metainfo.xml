@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<metainfo>
+	<schemaVersion>2.0</schemaVersion>
+	<services>
+		<service>
+			<name>PIKA</name>
+			<displayName>Pika</displayName>
+			<comment>Pika是一个可持久化的大容量Pika存储服务</comment>
+			<version>3.2.2</version>
+			<components>
+				<component>
+					<name>PIKA_SERVER</name>
+					<displayName>Pika-Master</displayName>
+					<category>MASTER</category>
+					<cardinality>1</cardinality>
+					<commandScript>
+						<script>scripts/pika_service.py</script>
+						<scriptType>PYTHON</scriptType>
+						<timeout>600</timeout>
+					</commandScript>
+				</component>
+				
+				<component> 
+					<name>PIKA_SLAVE</name>
+					<displayName>Pika-Slave</displayName>
+					<category>SLAVE</category> 
+					<cardinality>0+</cardinality>
+					<commandScript> 
+						<script>scripts/pika_slave_service.py</script> 
+						<scriptType>PYTHON</scriptType> 
+						<timeout>600</timeout> 
+					</commandScript>
+					<dependencies>
+						<dependency>
+							<name>PIKA/PIKA_SERVER</name>
+							<scope>cluster</scope>
+							<auto-deploy>
+								<enabled>true</enabled>
+							</auto-deploy>
+						</dependency>
+					</dependencies>
+				</component>
+				
+				<component>
+					<name>PIKA_SENTINEL</name>
+					<displayName>Pika-Sentinel</displayName>
+					<category>SLAVE</category>
+					<cardinality>0+</cardinality>
+					<dependencies>
+						<dependency>
+							<name>PIKA/PIKA_SERVER</name>
+							<scope>cluster</scope>
+							<auto-deploy>
+								<enabled>true</enabled>
+							</auto-deploy>
+						</dependency>
+						<dependency>
+							<name>PIKA/PIKA_SLAVE</name>
+							<scope>cluster</scope>
+							<auto-deploy>
+								<enabled>true</enabled>
+							</auto-deploy>
+						</dependency>
+					</dependencies>
+					<commandScript>
+						<script>scripts/pika_sentinel_service.py</script>
+						<scriptType>PYTHON</scriptType>
+						<timeout>600</timeout>
+					</commandScript>
+				</component>
+
+			</components>
+
+			<osSpecifics>
+				<osSpecific>
+					<osFamily>any</osFamily>
+					<packages>
+						<package>
+							<name>pika-3.2.2</name>
+						</package>
+					</packages>
+				</osSpecific>
+			</osSpecifics>
+
+			<configuration-dependencies>
+				<!-- <config-type>pika</config-type> <config-type>pika-sentinel</config-type> -->
+			</configuration-dependencies>
+		</service>
+	</services>
+</metainfo>

@@ -1,0 +1,59 @@
+{
+  "PIKA": {
+    "service": [],
+    "PIKA_SERVER": [
+      {
+        "name": "pika_server_port_check",
+        "label": "pika_server_port_check",
+        "description": "pika_server_port_check.",
+        "interval": 10,
+        "scope": "ANY",
+        "source": {
+          "type": "PORT",
+          "uri": "{{pika/port}}",
+          "default_port": 9221,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed: {0} to {1}:{2}",
+              "value": 5.0
+            }
+          }
+        }
+      }
+    ],
+    "PIKA_SENTINEL": [
+      {
+        "name": "pika_sentinel_port_check",
+        "label": "pika_sentinel_port_check",
+        "description": "pika_sentinel_port_check.",
+        "interval": 10,
+        "scope": "ANY",
+        "source": {
+          "type": "PORT",
+          "uri": "{{pika-sentinel/port}}",
+          "default_port": 9222,
+          "reporting": {
+            "ok": {
+              "text": "TCP OK - {0:.3f}s response on port {1}"
+            },
+            "warning": {
+              "text": "TCP OK - {0:.3f}s response on port {1}",
+              "value": 1.5
+            },
+            "critical": {
+              "text": "Connection failed: {0} to {1}:{2}",
+              "value": 5.0
+            }
+          }
+        }
+      }
+    ]
+  }
+}

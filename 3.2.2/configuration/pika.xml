@@ -1,0 +1,331 @@
+<configuration>
+	<property>
+		<name>port</name>
+		<value>9221</value>
+		<description>
+			pika 端口
+		</description>
+	</property>
+	<property>
+		<name>thread_num</name>
+		<value>1</value>
+		<description>
+			pika是多线程的, 该参数能够配置pika的线程数量, 不建议配置值超过部署服务器的CPU核心数量
+		</description>
+	</property>
+	<property>
+		<name>thread_pool_size</name>
+		<value>8</value>
+		<description>
+			处理命令用户请求命令线程池的大小
+		</description>
+	</property>
+	<property>
+		<name>sync_thread_num</name>
+		<value>6</value>
+		<description>
+			sync 主从同步时候从库执行主库传递过来命令的线程数量
+		</description>
+	</property>
+	<property>
+		<name>log_path</name>
+		<value>/opt/soft/log/pika/</value>
+		<description>
+			Pika日志目录, 用于存放INFO, WARNING, ERROR日志以及用于同步的binlog(write2fine)文件
+		</description>
+	</property>
+	<property>
+		<name>db_path</name>
+		<value>/data1/pika/db/</value>
+		<description>
+			Pika数据目录
+		</description>
+	</property>
+	<property>
+		<name>write_buffer_size</name>
+		<value>268435456</value>
+		<description>
+			Pika 底层引擎的write_buffer_size配置, 设置越大写入性能越好但会在buffer刷盘时带来更大的IO负载
+		</description>
+	</property>
+	<property>
+		<name>timeout</name>
+		<value>60</value>
+		<description>
+			Pika 的连接超时时间配置, 单位为秒, 当连接无请求时(进入sleep状态)开始从配置时间倒计时,
+			当倒计时为0时pika将强行断开该连接, 可以通过合理配置该参数避免可能出现的pika连接数用尽问题
+		</description>
+	</property>
+	<property>
+		<name>requirepass</name>
+		<value> </value>
+		<description>
+			密码管理员密码, 默认为空, 如果该参数与下方的userpass参数相同(包括同时为空),
+			则userpass参数将自动失效, 所有用户均为管理员身份不受userblacklist参数的限制
+		</description>
+	</property>
+	<property>
+		<name>masterauth</name>
+		<value> </value>
+		<description>
+			同步验证密码, 用于slave(从库)连接master(主库)请求同步时进行验证, 该参数需要与master(主库)的requirepass一致
+		</description>
+	</property>
+	<property>
+		<name>userpass</name>
+		<value> </value>
+		<description>
+			用户密码, 默认为空, 如果该参数与上方的userpass参数相同(包括同时为空), 则本参数将自动失效,
+			所有用户均为管理员身份不受userblacklist参数的限制
+		</description>
+	</property>
+	<property>
+		<name>userblacklist</name>
+		<value>FLUSHALL, SHUTDOWN, KEYS, CONFIG</value>
+		<description>
+			指令黑名单, 能够限制通过userpass登录的用户, 这些用户将不能使用黑名单中的指令, 指令之间使用","隔开,
+			建议将高风险命令配置在该参数中
+		</description>
+	</property>
+	<property>
+		<name>instance_mode</name>
+		<value>classic</value>
+		<description>
+			分为经典模式和分片模式，[classic | sharding]，经典模式中支持多db的配置
+		</description>
+	</property>
+	<property>
+		<name>databases</name>
+		<value>1</value>
+		<description>
+			经典模式下下指定db的数量，使用方式和redis一致
+		</description>
+	</property>
+	<property>
+		<name>default_slot_num</name>
+		<value>16</value>
+		<description>
+			分片模式下每一个table中默认的slot数量
+		</description>
+	</property>
+	<property>
+		<name>dump_prefix</name>
+		<value>backup_</value>
+		<description>
+			Pika的dump文件名称前缀, bgsave后生成的文件将以该前缀命名
+		</description>
+	</property>
+	<property>
+		<name>daemonize</name>
+		<value>yes</value>
+		<description>
+			守护进程模式 [yes | no]
+		</description>
+	</property>
+	<property>
+		<name>dump_path</name>
+		<value>/data1/pika/dump/</value>
+		<description>
+			Pika dump目录设置, bgsave后生成的文件将存放在该目录中
+		</description>
+	</property>
+	<property>
+		<name>dump_exipre</name>
+		<value>0</value>
+		<description>
+			dump目录过期时间, 单位为天, 默认为0即永不过期
+		</description>
+	</property>
+	<property>
+		<name>pidfile</name>
+		<value>/opt/soft/run/pika/pika.pid</value>
+		<description>
+			pidfile Path pid文件目录
+		</description>
+	</property>
+	<property>
+		<name>maxclients</name>
+		<value>20000</value>
+		<description>
+			pika最大连接数配置参数
+		</description>
+	</property>
+	<property>
+		<name>target_file_size_base</name>
+		<value>20971520</value>
+		<description>
+			rocks_db的sst文件体积, sst文件是层级的, 文件越小, 速度越快, 合并代价越低, 但文件数量就会超多,
+			而文件越大, 速度相对变慢, 合并代价大, 但文件数量会很少, 默认是 20M
+		</description>
+	</property>
+	<property>
+		<name>expire_logs_days</name>
+		<value>7</value>
+		<description>
+			binlog(write2file)文件保留时间, 7天, 最小为1, 超过7天的文件会被自动清理
+		</description>
+	</property>
+	<property>
+		<name>expire_logs_nums</name>
+		<value>20</value>
+		<description>
+			binlog(write2file)文件最大数量, 200个, 最小为10, 超过200个就开始自动清理, 始终保留200个
+		</description>
+	</property>
+	<property>
+		<name>root_connection_num</name>
+		<value>2</value>
+		<description>
+			root用户连接保证数量：2个, 即时Max Connection用完,
+			该参数也能确保本地（127.0.0.1）有2个连接可以同来登陆pika
+		</description>
+	</property>
+	<property>
+		<name>slowlog_log_slower_than</name>
+		<value>10000</value>
+		<description>
+			慢日志记录时间, 单位为微秒, pika的慢日志记录在pika_ERROR.log中, pika没有类似redis slow log的慢日志提取api
+		</description>
+	</property>
+	<property>
+		<name>slowlog_max_len</name>
+		<value>128</value>
+		<description>
+			慢日志的最大记录数
+		</description>
+	</property>
+	<property>
+		<name>slave_read_only</name>
+		<value>0</value>
+		<description>
+			slave是否是只读状态(yes/no, 1/0)
+		</description>
+	</property>
+	<property>
+		<name>slave_priority</name>
+		<value>10</value>
+		<description>
+			从库实例权重设置, 仅配合哨兵使用,无其它功能, 权重低的slave会优先选举为主库, 该参数默认为0(不参与选举)
+		</description>
+	</property>
+	<property>
+		<name>db_sync_path</name>
+		<value>/data1/pika/dbsync/</value>
+		<description>
+			Pika db 同步路径配置参数
+		</description>
+	</property>
+	<property>
+		<name>db_sync_speed</name>
+		<value>10</value>
+		<description>
+			该参数能够控制全量同步时的传输速度, 合理配置该参数能够避免网卡被用尽,
+			该参数范围为1~1024, 意为:1mb~1024mb，当该参数被配置为小于0或大于1024时, 该参数会被自动配置为1024
+		</description>
+	</property>
+	<property>
+		<name>network_interface</name>
+		<value>eth1</value>
+		<description>
+			指定网卡
+		</description>
+	</property>
+	<property>
+		<name>compact_cron</name>
+		<value>05_06/30</value>
+		<description>
+			自动全量compact, 通过配置的参数每天定时触发一次自动全量compact, 特别适合存在多数据结构大量过期、删除、key名称复用的场景
+			参数格式为:"启动时间(小时)_结束时间(小时)/磁盘空余空间百分比", 例如你需要配置一个每天在凌晨3点~4点之间自动compact的任务
+			同时该任务仅仅在磁盘空余空间不低于30%的时候执行, 那么应配置为:03_04/30, 该参数默认为空
+		</description>
+	</property>
+	<property>
+		<name>compact_interval</name>
+		<value> </value>
+		<description>
+			自动全量compact, 该参与与compact_cron的区别为, compact_cron每天仅在指定时间段执行, 而compact_interval则以配置时间为周期循环执行,
+			例如你需要配置一个每4小时执行一次的自动compact任务, 同时该任务仅仅在磁盘空余空间不低于30%的时候执行, 那么该参数应配置为:4/30, 该参数默认为空
+		</description>
+	</property>
+	<property>
+		<name>write_binlog</name>
+		<value>yes</value>
+		<description>
+			write_binlog [yes | no]
+		</description>
+	</property>
+	<property>
+		<name>binlog_file_size</name>
+		<value>104857600</value>
+		<description>
+			write2file文件体积, 默认为100MB, 一旦启动不可修改, limited in [1K, 2G]
+		</description>
+	</property>
+	<property>
+		<name>compression</name>
+		<value>snappy</value>
+		<description>
+			压缩方式[snappy | zlib | none]默认为snappy, 一旦启动不可修改
+		</description>
+	</property>
+	<property>
+		<name>mall_compaction_threshold</name>
+		<value>5000</value>
+		<description>
+			当'删除'或'覆盖'特定的多数据结构键'small_compaction_threshold'时，会自动触发一个小的压缩，默认为5000，limited in[1,100000]
+		</description>
+	</property>
+	<property>
+		<name>max_write_buffer_size</name>
+		<value>10737418240</value>
+		<description>
+			如果所有DB的所有实时memtables的总大小超过限制，则将在下一个发出下一个写入的DB中触发刷新。
+		</description>
+	</property>
+	<property>
+		<name>max_background_flushes</name>
+		<value>1</value>
+		<description>
+			指定后台flush线程数量, 默认为1, 范围为[1, 4]
+		</description>
+	</property>
+	<property>
+		<name>max_background_compactions</name>
+		<value>2</value>
+		<description>
+			指定后台压缩线程数量, 默认为1, 范围为[1, 8]
+		</description>
+	</property>
+	<property>
+		<name>max_cache_files</name>
+		<value>5000</value>
+		<description>
+			DB可以使用的打开文件的数量, 默认为5000
+		</description>
+	</property>
+	<property>
+		<name>max_bytes_for_level_multiplier</name>
+		<value>10</value>
+		<description>
+			pika引擎中层级因子, 用于控制每个层级与上一层级总容量的倍数关系, 默认为10(倍), 允许调整为5(倍)
+		</description>
+	</property>
+
+	<property>
+		<name>master_ip</name>
+		<value>ark2.analysys.xyz</value>
+		<description>
+			DO NOT USE 127.0.0.1 but the real IP of the server
+
+			Tells Sentinel to monitor this master, and to consider it in O_DOWN
+			(Objectively Down) state only if at least quorum sentinels agree.
+
+			Note that whatever is the ODOWN quorum, a Sentinel will require to
+			be elected by the majority of the known Sentinels in order to
+			start a failover, so no failover can be performed in minority.
+
+			Note: master name should not include special characters or spaces.
+			The valid charset is A_z 0_9 and the three characters ".__".
+		</description>
+	</property>
+</configuration>

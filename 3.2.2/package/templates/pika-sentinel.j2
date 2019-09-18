@@ -1,0 +1,29 @@
+#!/bin/sh
+
+start(){
+        {{pika_home}}/bin/pika-sentinel {{conf_dir}}/pika-sentinel.conf --sentinel
+}
+stop(){
+        {{pika_home}}/bin/pika-cli -p {{sentinel_port}} shutdown
+
+}
+restart(){
+        {{pika_home}}/bin/pika-cli -p {{sentinel_port}} shutdown
+        {{pika_home}}/bin/pika-sentinel {{conf_dir}}/pika-sentinel.conf --sentinel
+}
+
+case "$1" in
+start)
+        start
+        ;;
+stop)
+        stop
+        ;;
+restart)
+        restart
+        ;;
+*)
+        echo "Usage: $0 {start|restart|stop}"
+        exit 1
+        ;;
+esac
