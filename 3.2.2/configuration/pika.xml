@@ -115,13 +115,13 @@
 			Pika的dump文件名称前缀, bgsave后生成的文件将以该前缀命名
 		</description>
 	</property>
-	<property>
-		<name>daemonize</name>
-		<value>yes</value>
-		<description>
-			守护进程模式 [yes | no]
-		</description>
-	</property>
+	<!--<property>-->
+		<!--<name>daemonize</name>-->
+		<!--<value>yes</value>-->
+		<!--<description>-->
+			<!--守护进程模式 [yes | no]-->
+		<!--</description>-->
+	<!--</property>-->
 	<property>
 		<name>dump_path</name>
 		<value>/data1/pika/dump/</value>
